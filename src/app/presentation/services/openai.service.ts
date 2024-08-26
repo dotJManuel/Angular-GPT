@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { from } from 'rxjs';
-import { auidoToTextUseCase, orthographyUseCase, prosConsStreamUseCase, prosConsUseCase, textToAudioUseCase, translateTextUseCase } from 'use-cases/index';
+import { auidoToTextUseCase, imageGenerationUseCase, orthographyUseCase, prosConsStreamUseCase, prosConsUseCase, textToAudioUseCase, translateTextUseCase } from 'use-cases/index';
+import { imageVariationUseCase } from '../../core/use-cases/image-generation/image-variation.use-case';
 
 @Injectable({providedIn: 'root'})
 export class OpenAIService {
@@ -27,5 +28,13 @@ export class OpenAIService {
 
     audioToText( file: File, prompt: string ) {
         return from( auidoToTextUseCase(file, prompt));
+    }
+
+    imageGeneration( prompt: string, originalImage?: string, maskImage?: string ) {
+        return from( imageGenerationUseCase(prompt, originalImage, maskImage ));
+    }
+
+    imageVariation( originalImage: string ) {
+        return from( imageVariationUseCase( originalImage) );
     }
 }
