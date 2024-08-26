@@ -23,25 +23,26 @@ import { OpenAIService } from 'app/presentation/services/openai.service';
 export default class ImageTunningPageComponent {
 
     public messages = signal<Message[]>([
-        {
-            isGpt: true,
-            text: 'Anime',
-            imageInfo: {
-                alt: 'Anime',
-                url: 'http://localhost:3000/gpt/image-generation/1724626779793.png'
-            }
-        }
+        // {
+        //     isGpt: true,
+        //     text: 'Anime',
+        //     imageInfo: {
+        //         alt: 'Anime',
+        //         url: 'http://localhost:3000/gpt/image-generation/1724626779793.png'
+        //     }
+        // }
     ]);
     public isLoading = signal(false);
     public openAIService = inject( OpenAIService );
 
     public originalImage = signal<string|undefined>(undefined);
+    public maksImage = signal<string|undefined>(undefined);
 
     handleMessage( prompt: string ) {
         this.isLoading.set(true);
         this.messages.update(prev => [ ...prev, { isGpt: false, text: prompt }]);
 
-        this.openAIService.imageGeneration(prompt)
+        this.openAIService.imageGeneration(prompt, this.originalImage(), this.maksImage())
             .subscribe( resp => {
                 this.isLoading.set(false);
                 if( !resp ) return;
@@ -58,7 +59,8 @@ export default class ImageTunningPageComponent {
     }
 
     handleImageChange( newImage: string, originalImage: string ) {
-        this.originalImage.set( originalImage );
+        this.originalImage.set(originalImage);
+        this.maksImage.set(newImage);
     }
 
     generateVariation() {
