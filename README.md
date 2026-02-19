@@ -1,41 +1,84 @@
 # AngularGPT
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
+Aplicacion frontend construida con **Angular 17** que integra multiples funcionalidades de OpenAI a traves de una interfaz de chat. Incluye correccion ortografica, traduccion, generacion de imagenes, conversion de audio y un asistente conversacional.
 
-## Development server
+## Tecnologias
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Angular 17.1** - Standalone components, signals, lazy loading
+- **Tailwind CSS 3.4** - Estilos utility-first
+- **RxJS** - Programacion reactiva
+- **ngx-markdown** - Renderizado de markdown en respuestas
+- **Font Awesome 6** - Iconografia
 
-## Code scaffolding
+## Requisitos previos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Node.js 18+
+- Angular CLI 17 (`npm install -g @angular/cli`)
+- Backend [nest-gpt](../nest-gpt) corriendo en `http://localhost:3000`
 
-## Build
+## Instalacion
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm install
+ng serve
+```
 
-## Running unit tests
+La aplicacion estara disponible en `http://localhost:4200/`.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Funcionalidades
 
-## Running end-to-end tests
+| Ruta | Descripcion |
+|------|-------------|
+| `/orthography` | Correccion ortografica y gramatical con puntuacion |
+| `/pros-cons` | Comparar pros y contras de un tema |
+| `/pros-cons-stream` | Pros y contras con respuesta en streaming |
+| `/translate` | Traduccion de textos a otros idiomas |
+| `/text-to-audio` | Convertir texto a audio con seleccion de voz |
+| `/audio-to-text` | Transcripcion de archivos de audio a texto |
+| `/image-generation` | Generacion de imagenes desde prompts |
+| `/image-tunning` | Edicion y variaciones de imagenes |
+| `/assistant` | Asistente conversacional con hilos de OpenAI |
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Estructura del proyecto
 
-## Further help
+```
+src/app/
+├── core/
+│   └── use-cases/           # Logica de negocio (llamadas al backend)
+│       ├── orthography/
+│       ├── pros-cons/
+│       ├── translate/
+│       ├── audios/
+│       ├── image-generation/
+│       └── assistant/
+├── presentation/
+│   ├── components/          # Componentes reutilizables
+│   │   ├── chat-bubbles/    # Burbujas de mensaje (user/GPT)
+│   │   └── text-boxes/      # Inputs de texto, archivos y selects
+│   ├── layouts/             # Dashboard con sidebar
+│   ├── pages/               # Paginas por funcionalidad
+│   └── services/            # OpenAIService (wrapper de use cases)
+├── interfaces/              # Tipos TypeScript
+└── template/                # Template reutilizable de chat
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Arquitectura
 
+- **Clean Architecture**: separacion entre `core` (logica de negocio) y `presentation` (UI)
+- **Standalone Components**: todos los componentes son standalone (Angular 17+)
+- **Signals**: manejo de estado reactivo con `signal()` y `update()`
+- **Lazy Loading**: cada pagina se carga bajo demanda via `loadComponent`
+- **OnPush Change Detection**: optimizacion de rendimiento en componentes
 
-Temas:
-Construcción de rutas
-Padre e hijas
-Tailwindcss
-Inputs y Outputs
-Referencias locales
-Formularios reactivos
-Selección de archivos
-Diseño de chat
-Interfaces
-Estructura de carpetas
-Señales
+## Temas cubiertos
+
+- Construccion de rutas (padre e hijas)
+- Tailwind CSS
+- Inputs, Outputs y referencias locales
+- Formularios reactivos
+- Seleccion y subida de archivos
+- Diseno de interfaz de chat
+- Interfaces y tipado
+- Estructura de carpetas por capas
+- Signals y estado reactivo
+- Streaming de respuestas con generators
